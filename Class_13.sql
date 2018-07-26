@@ -26,13 +26,29 @@ SET release_year = CASE
 END;
 
 4)
+UPDATE rental
+SET return_date = CURRENT_DATE()
+WHERE rental_id = 14769;
+
+INSERT INTO payment 
+(customer_id, staff_id, rental_id, amount, payment_date, last_update)
+VALUES (0, 0, NULL, 0, '',current_timestamp());
+
+SELECT rental_id FROM rental WHERE return_date IS NULL;
 
 
 5)
-DELETE FROM film
-WHERE title = 'ZORRO ARK';
+DELETE FROM film_actor
+WHERE film_id = 1;
 
-ALTER TABLE film
-  ADD CONSTRAINT fk_film_actor_film FOREIGN KEY (film_id) 
-      REFERENCES film (film_id);
-ON DELETE CASCASE
+DELETE FROM film_category
+WHERE film_id = 1;
+
+DELETE FROM rental
+WHERE inventory_id in (select inventory_id from inventory where film_id = 1);
+
+DELETE FROM inventory
+WHERE film_id = 1;
+
+DELETE FROM film
+WHERE film_id = 1;
